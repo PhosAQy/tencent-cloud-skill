@@ -1,0 +1,84 @@
+#!/bin/bash
+# 腾讯云 CLI 入口脚本
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+show_help() {
+  cat <<EOF
+腾讯云命令行工具
+
+用法:
+  tc <service> <command> [args...]
+
+服务:
+  scf      云函数
+  cvm      云服务器
+  cdb      云数据库 MySQL
+  vpc      私有网络
+  cam      访问管理
+  cos      对象存储
+
+示例:
+  tc scf list                    列出云函数
+  tc scf get my-function         获取函数详情
+  tc cvm list ap-shanghai        列出上海区域 CVM
+  tc cdb list                    列出 MySQL 实例
+  tc cos buckets                 列出 COS Buckets
+
+配置:
+  编辑 secrets/tencent.env 设置密钥
+
+帮助:
+  tc <service> help              查看服务帮助
+EOF
+}
+
+# 确保依赖已安装
+ensure_deps() {
+  local pkg_file="$SCRIPT_DIR/../package.json"
+  local node_modules="$SCRIPT_DIR/../node_modules"
+
+  if [[ ! -d "$node_modules/tencentcloud-sdk-nodejs" ]]; then
+    echo "正在安装依赖..." >&2
+    cd "$SCRIPT_DIR/.."
+    npm init -y >/dev/null 2>&1
+    npm install tencentcloud-sdk-nodejs cos-nodejs-sdk-v5 --silent 2>&1
+    cd - >/dev/null
+  fi
+}
+
+ensure_deps
+
+case "$1" in
+  scf)
+    shift
+    node "$SCRIPT_DIR/scf.js" "$@"
+    ;;
+  cvm)
+    shift
+    node "$SCRIPT_DIR/cvm.js" "$@"
+    ;;
+  cdb)
+    shift
+    node "$SCRIPT_DIR/cdb.js" "$@"
+    ;;
+  vpc)
+    shift
+    node "$SCRIPT_DIR/vpc.js" "$@"
+    ;;
+  cam)
+    shift
+    node "$SCRIPT_DIR/cam.js" "$@"
+    ;;
+  cos)
+    shift
+    node "$SCRIPT_DIR/cos.js" "$@"
+    ;;
+  help|--help|-h)
+    show_help
+    ;;
+  *)
+    show_help
+    exit 1
+    ;;
+esac

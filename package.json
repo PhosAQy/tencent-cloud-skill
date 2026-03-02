@@ -1,0 +1,28 @@
+{
+  "name": "tencent-cloud",
+  "version": "1.0.0",
+  "description": "模块化的腾讯云资源操作脚本集合，每个服务独立脚本，便于维护和扩展。",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PhosAQy/tencent-cloud-skill.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/PhosAQy/tencent-cloud-skill/issues"
+  },
+  "homepage": "https://github.com/PhosAQy/tencent-cloud-skill#readme",
+  "dependencies": {
+    "cos-nodejs-sdk-v5": "^2.15.4",
+    "tencentcloud-sdk-nodejs": "^4.1.188"
+  }
+}
