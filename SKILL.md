@@ -66,6 +66,7 @@ TENCENTCLOUD_REGION=ap-guangzhou
 1. 在 `scripts/` 下创建新脚本
 2. 参考 `utils.js` 中的通用函数
 3. 在 `docs/` 下添加文档
+4. 测试通过后提交 PR 到 GitHub
 
 ### 脚本模板
 

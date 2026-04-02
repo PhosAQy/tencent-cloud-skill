@@ -184,6 +184,9 @@ node scripts/cvm-price.js S5.LARGE8 ap-shanghai-2 ap-shanghai
 1. 在 `scripts/` 下创建新脚本
 2. 参考 `utils.js` 中的通用函数
 3. 在 `docs/` 下添加文档
+4. 测试通过后提交 PR 到 GitHub
+
+> **提示**：新增功能测试没问题后，欢迎提交 Pull Request 贡献代码。
 
 ### 脚本模板
 
