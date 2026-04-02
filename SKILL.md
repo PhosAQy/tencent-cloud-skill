@@ -53,6 +53,11 @@ TENCENTCLOUD_REGION=ap-guangzhou
 | VPC | scripts/vpc.js | 私有网络 |
 | CAM | scripts/cam.js | 访问管理 |
 | COS | scripts/cos.js | 对象存储 |
+| APIGW | scripts/apigw.js | API 网关 |
+| Domain | scripts/domain.js | 域名服务 |
+| TTS | scripts/tts.js | 语音合成 |
+| Redis | scripts/redis-list.js | Redis 实例 |
+| Vector | docs/vector-bucket.md | 向量存储桶 |
 
 ## 扩展指南
 

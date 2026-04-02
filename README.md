@@ -57,6 +57,11 @@ node scripts/cdb.js list
 | VPC | scripts/vpc.js | docs/vpc.md | 私有网络 |
 | CAM | scripts/cam.js | docs/cam.md | 访问管理 |
 | COS | scripts/cos.js | docs/cos.md | 对象存储 |
+| APIGW | scripts/apigw.js | - | API 网关 |
+| Domain | scripts/domain.js | - | 域名服务 |
+| TTS | scripts/tts.js | - | 语音合成 |
+| Redis | scripts/redis-list.js | - | Redis 实例 |
+| Vector | docs/vector-bucket.md | - | 向量存储桶 |
 
 ## 快速参考
 
@@ -121,6 +126,43 @@ node scripts/cos.js delete <bucket> <key> [region]
 node scripts/cos.js url <bucket> <key> [region] [expires]
 ```
 
+### API 网关
+
+```bash
+node scripts/apigw.js create-service <name>
+node scripts/apigw.js get-service <service-id>
+```
+
+### 域名服务
+
+```bash
+node scripts/domain.js check <域名>      # 查询是否可注册
+node scripts/domain.js list             # 列出已有域名
+node scripts/domain.js buy <域名> [年数] # 购买域名
+```
+
+### 语音合成 (TTS)
+
+```bash
+node scripts/tts.js --text "文本内容" --output /path/to/output.wav
+node scripts/tts.js --text "文本内容" --output /path/to/output.wav --voice 1002
+node scripts/tts.js --list  # 列出可用音色
+```
+
+### Redis 数据库
+
+```bash
+node scripts/redis-list.js
+```
+
+### CVM 价格查询
+
+```bash
+node scripts/cvm-price.js S5.MEDIUM4              # 查询实例价格
+node scripts/cvm-price.js types                    # 列出所有实例类型
+node scripts/cvm-price.js S5.LARGE8 ap-shanghai-2 ap-shanghai
+```
+
 ## 地域代码
 
 | 代码 | 地域 |
@@ -170,12 +212,19 @@ tencent-cloud/
 │   ├── scf.js       # 云函数
 │   ├── cvm.js       # 云服务器
 │   ├── cdb.js       # 云数据库
+│   ├── cdb-detail.js # MySQL 实例详情
+│   ├── cdb-list.js   # MySQL 实例列表
+│   ├── redis-list.js # Redis 实例列表
 │   ├── vpc.js       # 私有网络
 │   ├── cam.js       # 访问管理
-│   └── cos.js       # 对象存储
+│   ├── cos.js       # 对象存储
+│   ├── apigw.js     # API 网关
+│   ├── domain.js    # 域名服务
+│   ├── tts.js       # 语音合成
+│   └── cvm-price.js  # CVM 价格查询
 ├── docs/
 │   ├── scf.md       # SCF 文档
-│   └── ...
+│   └── vector-bucket.md # 向量存储桶
 ├── secrets/
 │   └── tencent.env  # 密钥配置
 ├── SKILL.md         # Skill 说明

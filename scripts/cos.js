@@ -157,6 +157,81 @@ async function getUrl(bucket, key, region, expires) {
   output({ url, expires: expires || 3600 });
 }
 
+// 设置 Bucket ACL
+async function setBucketAcl(bucket, acl, region) {
+  const cos = createCosClient();
+  return new Promise((resolve, reject) => {
+    cos.putBucketAcl(
+      {
+        Bucket: bucket,
+        Region: region || DEFAULT_REGION,
+        ACL: acl, // private, public-read, public-read-write
+      },
+      (err, data) => {
+        if (err) reject(err);
+        else {
+          output({ success: true, bucket, acl, region: region || DEFAULT_REGION });
+          resolve(data);
+        }
+      }
+    );
+  });
+}
+
+// 设置 Bucket 自定义域名
+async function setBucketDomain(bucket, domain, region) {
+  const cos = createCosClient();
+  return new Promise((resolve, reject) => {
+    cos.putBucketDomain({
+      Bucket: bucket,
+      Region: region || DEFAULT_REGION,
+      DomainConfiguration: {
+        DomainRules: [{
+          Status: 'ENABLED',
+          Name: domain,
+          Type: 'REST',
+          ForcedReplacement: 'CNAME',
+        }]
+      }
+    }, (err, data) => {
+      if (err) reject(err);
+        else {
+          output({ success: true, bucket, domain, region: region || DEFAULT_REGION });
+          resolve(data);
+        }
+      }
+    );
+  });
+}
+
+// 巻加域名解析 (需要DNS CNAME记录)
+// CNAME: claw-camp-1307257815.cos.ap-guangzhou.myqcloud.com
+
+// 设置 Bucket 自定义域名
+async function setBucketDomain(bucket, domain, region) {
+  const cos = createCosClient();
+  return new Promise((resolve, reject) => {
+    cos.putBucketDomain({
+      Bucket: bucket,
+      Region: region || DEFAULT_REGION,
+      DomainConfiguration: {
+        DomainRules: [{
+          Status: 'ENABLED',
+          Name: domain,
+          Type: 'REST',
+          ForcedReplacement: 'CNAME',
+        }]
+      }
+    }, (err, data) => {
+      if (err) reject(err);
+      else {
+        output({ success: true, bucket, domain, region: region || DEFAULT_REGION });
+        resolve(data);
+      }
+    });
+  });
+}
+
 // 帮助
 function help() {
   console.log(`
@@ -171,6 +246,7 @@ function help() {
   node cos.js download <bucket> <key> <local> [region] 下载文件
   node cos.js delete <bucket> <key> [region]      删除文件
   node cos.js url <bucket> <key> [region] [expires]  获取签名 URL
+  node cos.js set-acl <bucket> <acl> [region]     设置 Bucket ACL (private/public-read/public-read-write)
 
 地域代码:
   ap-guangzhou  广州
@@ -217,6 +293,14 @@ async function main() {
       case 'url':
         if (!args[1] || !args[2]) error('请指定 bucket 和 key', 'MISSING_ARG');
         await getUrl(args[1], args[2], args[3], args[4]);
+        break;
+      case 'set-acl':
+        if (!args[1] || !args[2]) error('请指定 bucket 和 acl (private/public-read/public-read-write)', 'MISSING_ARG');
+        await setBucketAcl(args[1], args[2], args[3]);
+        break;
+      case 'set-domain':
+        if (!args[1] || !args[2]) error('请指定 bucket 和域名', 'MISSING_ARG');
+        await setBucketDomain(args[1], args[2], args[3]);
         break;
       case 'help':
       default:
